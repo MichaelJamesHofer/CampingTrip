@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 100, 116, 139;
+  --background-end-rgb: 71, 85, 105;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      rgb(var(--background-start-rgb)),
+      rgb(var(--background-end-rgb))
+    )
+    fixed;
+}
+
+.wireframe-grid {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.glow-effect {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+}
+
+.category-header {
+  @apply text-xl font-bold mb-2 text-white border-b border-white/20 pb-2;
+}
+
+.checklist-item {
+  @apply flex items-start gap-3 py-2 transition-all duration-300 hover:bg-white/5 rounded px-2;
+}
+
+.checklist-item input[type="checkbox"] {
+  @apply h-5 w-5 rounded border-white/30 bg-transparent checked:bg-blue-500 transition-colors duration-200 mt-0.5;
+}
+
+.checklist-item label {
+  @apply cursor-pointer flex-1;
+}
+
+.checklist-item.checked label {
+  @apply line-through text-white/50;
+}
+
+.category-container {
+  @apply bg-white/5 backdrop-blur-sm rounded-lg p-4 mb-6 border border-white/10;
+}
+
+.igloo-container {
+  @apply relative overflow-hidden rounded-lg;
+  perspective: 1000px;
+}
+
+.wireframe-element {
+  @apply border border-white/20 rounded-lg;
+}
+
+.progress-bar {
+  @apply h-2 bg-white/10 rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+  @apply h-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-500;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

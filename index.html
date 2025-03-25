@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Idaho Camping Checklist</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.7.1/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div class="ui-container">
+        <header>
+            <h1>North Idaho Camping Checklist</h1>
+            <p class="subtitle">Mid-April Adventure for 3 People</p>
+        </header>
+        
+        <!-- Statistics Dashboard -->
+        <div class="stats-dashboard">
+            <div class="stats-header">
+                <h2>Trip Statistics</h2>
+                <button class="refresh-stats-btn">↻ Refresh</button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Item Completion</h3>
+                    <div class="stat-chart-container">
+                        <canvas id="completionChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Items by Person</h3>
+                    <div class="stat-chart-container">
+                        <canvas id="personChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Items by Category</h3>
+                    <div class="stat-chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Completion by Category</h3>
+                    <div class="stat-chart-container">
+                        <canvas id="completionByCategoryChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card summary-card">
+                    <h3>Summary</h3>
+                    <div class="summary-stats">
+                        <div class="summary-stat">
+                            <span class="stat-label">Total Items:</span>
+                            <span class="stat-value" id="totalItems">0</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Completed:</span>
+                            <span class="stat-value" id="completedItems">0</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Remaining:</span>
+                            <span class="stat-value" id="remainingItems">0</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Completion Rate:</span>
+                            <span class="stat-value" id="completionRate">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="checklist-container">
+            <div class="person-selector">
+                <button class="person-btn active" data-person="all">All Items</button>
+                <button class="person-btn" data-person="sam-r">Sam R.</button>
+                <button class="person-btn" data-person="sam-d">Sam D.</button>
+                <button class="person-btn" data-person="michael">Michael</button>
+            </div>
+
+            <div class="category-management">
+                <button class="add-category-btn">+ Add Category</button>
+            </div>
+
+            <div class="categories">
+                <div class="category" data-category="campsite">
+                    <h2>
+                        <span class="category-name">Campsite Equipment</span>
+                        <div class="category-actions">
+                            <button class="edit-category-btn" data-category="campsite">✎</button>
+                            <button class="add-item-btn" data-category="campsite">+ Add Item</button>
+                        </div>
+                    </h2>
+                    <div class="items"></div>
+                </div>
+                <div class="category" data-category="clothing">
+                    <h2>
+                        <span class="category-name">Clothing</span>
+                        <div class="category-actions">
+                            <button class="edit-category-btn" data-category="clothing">✎</button>
+                            <button class="add-item-btn" data-category="clothing">+ Add Item</button>
+                        </div>
+                    </h2>
+                    <div class="items"></div>
+                </div>
+                <div class="category" data-category="toiletries">
+                    <h2>
+                        <span class="category-name">Toiletries</span>
+                        <div class="category-actions">
+                            <button class="edit-category-btn" data-category="toiletries">✎</button>
+                            <button class="add-item-btn" data-category="toiletries">+ Add Item</button>
+                        </div>
+                    </h2>
+                    <div class="items"></div>
+                </div>
+                <div class="category" data-category="food">
+                    <h2>
+                        <span class="category-name">Food and Water</span>
+                        <div class="category-actions">
+                            <button class="edit-category-btn" data-category="food">✎</button>
+                            <button class="add-item-btn" data-category="food">+ Add Item</button>
+                        </div>
+                    </h2>
+                    <div class="items"></div>
+                </div>
+                <div class="category" data-category="navigation">
+                    <h2>
+                        <span class="category-name">Navigation and Tools</span>
+                        <div class="category-actions">
+                            <button class="edit-category-btn" data-category="navigation">✎</button>
+                            <button class="add-item-btn" data-category="navigation">+ Add Item</button>
+                        </div>
+                    </h2>
+                    <div class="items"></div>
+                </div>
+                <div class="category" data-category="safety">
+                    <h2>
+                        <span class="category-name">Safety and Emergency</span>
+                        <div class="category-actions">
+                            <button class="edit-category-btn" data-category="safety">✎</button>
+                            <button class="add-item-btn" data-category="safety">+ Add Item</button>
+                        </div>
+                    </h2>
+                    <div class="items"></div>
+                </div>
+                <div class="category" data-category="misc">
+                    <h2>
+                        <span class="category-name">Miscellaneous</span>
+                        <div class="category-actions">
+                            <button class="edit-category-btn" data-category="misc">✎</button>
+                            <button class="add-item-btn" data-category="misc">+ Add Item</button>
+                        </div>
+                    </h2>
+                    <div class="items"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing items -->
+    <div class="modal" id="itemModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Item</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="itemForm">
+                <div class="form-group">
+                    <label for="itemName">Item Name</label>
+                    <input type="text" id="itemName" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemCategory">Category</label>
+                    <select id="itemCategory" required>
+                        <option value="campsite">Campsite Equipment</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="toiletries">Toiletries</option>
+                        <option value="food">Food and Water</option>
+                        <option value="navigation">Navigation and Tools</option>
+                        <option value="safety">Safety and Emergency</option>
+                        <option value="misc">Miscellaneous</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="itemPerson">Assigned To</label>
+                    <select id="itemPerson" required>
+                        <option value="sam-r">Sam R.</option>
+                        <option value="sam-d">Sam D.</option>
+                        <option value="michael">Michael</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="save-btn">Save Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for category management -->
+    <div class="modal" id="categoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Category</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="categoryForm">
+                <div class="form-group" id="categoryIdGroup" style="display: none;">
+                    <label for="categoryId">Category ID (no spaces)</label>
+                    <input type="text" id="categoryId" pattern="[a-z0-9-]+" title="Only lowercase letters, numbers, and hyphens are allowed">
+                </div>
+                <div class="form-group">
+                    <label for="categoryName">Display Name</label>
+                    <input type="text" id="categoryName" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="save-btn">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
